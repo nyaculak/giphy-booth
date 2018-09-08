@@ -3,12 +3,26 @@ import {Grid, Row, Col} from "react-bootstrap";
 import Head from '../components/head'
 import Nav from '../components/nav'
 import WebcamCapture from '../components/WebcamCapture';
+import GiphyGif from '../components/GiphyGif';
 
 export default class Index extends React.Component {
 
-  _handleCapture(imageSrc) {
-    console.log(`Image Captured: ${imageSrc}`);
+  async _handleCapture(imageSrc) {
+    console.log("Captured Image");
     this.refs.image.src = imageSrc;
+
+
+    this.refs.giphy.search('obnoxious dab');
+
+    const imageData = imageSrc.split(",")[1];
+    const response = await fetch("http://localhost:5000/classify", {
+      method: "POST",
+      headers: {"Content-type": "application/json"},
+      body: JSON.stringify({image: imageData})
+    });
+    const responseJson = await response.json()
+    console.log(responseJson)
+
   }
 
   render() {
@@ -23,6 +37,7 @@ export default class Index extends React.Component {
           </Col>
           <Col xs={4}>
             <img ref="image" width={427} height={240} style={{display: 'inline-block', margin: "0 auto"}} />
+            <GiphyGif ref="giphy" query={"dancing"} />
           </Col>
         </Row>
       </Grid>
