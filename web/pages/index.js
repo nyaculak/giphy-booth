@@ -6,9 +6,18 @@ import WebcamCapture from '../components/WebcamCapture';
 
 export default class Index extends React.Component {
 
-  _handleCapture(imageSrc) {
-    console.log(`Image Captured: ${imageSrc}`);
+  async _handleCapture(imageSrc) {
+    console.log("Captured Image");
     this.refs.image.src = imageSrc;
+
+    const imageData = imageSrc.split(",")[1];
+    const response = await fetch("http://localhost:5000/classify", {
+      method: "POST",
+      headers: {"Content-type": "application/json"},
+      body: JSON.stringify({image: imageData})
+    });
+    const responseJson = await response.json()
+    console.log(responseJson)
   }
 
   render() {
