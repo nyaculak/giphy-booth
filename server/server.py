@@ -38,8 +38,9 @@ def classify():
 
 @app.route("/giphy", methods=['POST'])
 def giphy():
-    return "http"
-
+    response = requests.post("https://api.giphy.com/v1/gifs/random?api_key=" + GIPHY_API_KEY + "&tag=" + request.json.get("tag") + "&rating=PG-13")
+    return response.text;
+    
 @app.after_request
 def set_response_headers(response):
     response.headers["Access-Control-Allow-Origin"] = "*"
