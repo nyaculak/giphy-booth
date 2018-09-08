@@ -1,0 +1,7 @@
+__pycache__
+.vscode
+data
+results
+weights
+pose/video/*
+out
